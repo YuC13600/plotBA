@@ -2,7 +2,7 @@
 """
 Created on Sun Nov 20 2022
 
-@author: Alex_Chen
+@author: YuC13600
 
 這個作品是第8次作業的升級版，先前是在C++程式中使用Opencv讀出相片的值再人工複製貼上到Python程式碼中。
 這次則是把Opencv的部分整合進Python，並將輸入的檔案從圖片升級為影片，將每一張plot存檔成jpg之後再變回影片。
