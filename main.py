@@ -57,7 +57,7 @@ for j in range(0, int(total_frames)-3):
     # print(x)
     # print(y)
 
-#將每一張plot復原成圖片
+#將每一張plot復原成影片
 print("Video encoding...")
 img_arr = []
 size = 0
