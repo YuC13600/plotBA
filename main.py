@@ -28,30 +28,19 @@ print("size:%d"%(width*height))
 #將每一幀轉成灰階之後讀出值，再用pyplot畫出圖表並存檔
 for j in range(0, int(total_frames)-3):
     print("Plot Processing... %f%s"%(j/total_frames*100,'%'))
-    cap.set(1, j)
-    ret, frame = cap.read()
+    cap.set(1, j) # 1 = cv2.CAP_PROP_POS_FRAMES
+    _, frame = cap.read()
     # cv2.imwrite("outimg.jpg", frame)
 
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     # print(gray)
 
-    xlist = [1]
-    for i in range(2, int(width)+1):
-        xlist.append(i)
-    x = np.array(xlist)
-    ylist = [int(height)]
-    for i in range(int(height)-1, 0, -1):
-        ylist.append(i)
-    y = np.array(ylist)
+    x = range(0, int(width))
+    y = range(int(height)-1, -1, -1)
+    X, Y = np.meshgride(x, y)
 
-    X, Y = np.meshgrid(x, y)
-
-    Z = []
-    for i in gray:
-        Z.append(i)
-
-    plt.contourf(X, Y, Z)
+    plt.contourf(X, Y, gray)
     img_name = str(j)+'out.jpg'
     plt.savefig(img_name)
     # print(x)
@@ -72,5 +61,5 @@ out = cv2.VideoWriter('output.avi', cv2.VideoWriter_fourcc(*'DIVX'), 30, size)
 
 for i in range(len(img_arr)):
     out.write(img_arr[i])
-out.release
+out.release()
 # %%
