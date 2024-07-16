@@ -20,13 +20,16 @@ import matplotlib.pyplot as plt
 #讀入影片檔並計算total frame和圖片的尺寸
 cap = cv2.VideoCapture("orivid.webm")
 total_frames = cap.get(7)
-print(total_frames)
+print(f"total frames: {total_frames}")
 width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
 height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
-print("size:%d"%(width*height))
+print(f"size: {width}x{height}")
+fps = cap.get(5)
+print(f"{fps} fps")
+
 
 #將每一幀轉成灰階之後讀出值，再用pyplot畫出圖表並存檔
-for j in range(0, int(total_frames)-3):
+for j in range(int(total_frames)):
     print("Plot Processing... %f%s"%(j/total_frames*100,'%'))
     cap.set(1, j) # 1 = cv2.CAP_PROP_POS_FRAMES
     _, frame = cap.read()
@@ -48,18 +51,16 @@ for j in range(0, int(total_frames)-3):
 
 #將每一張plot復原成影片
 print("Video encoding...")
-img_arr = []
-size = 0
-for i in range(40, int(total_frames)-53):
+first_img = cv2.imread("0.out.jpg")
+height, width, _ = first_img.shape
+size = (width, height)
+
+writer = cv2.VideoWriter('output.avi', cv2.VideoWriter_fourcc(*'DIVX'), fps, size)
+
+for i in range(int(total_frames)):
     filename = str(i)+'out.jpg'
     img = cv2.imread(filename)
-    height, width, layers = img.shape
-    size = (width, height)
-    img_arr.append(img)
+    writer.write(img)
 
-out = cv2.VideoWriter('output.avi', cv2.VideoWriter_fourcc(*'DIVX'), 30, size)
-
-for i in range(len(img_arr)):
-    out.write(img_arr[i])
-out.release()
+writer.release()
 # %%
